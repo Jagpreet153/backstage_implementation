@@ -35,9 +35,13 @@ import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
+import { githubAuthApiRef } from '@backstage/core-plugin-api';
+
+
 
 const app = createApp({
   apis,
+
   bindRoutes({ bind }) {
     bind(catalogPlugin.externalRoutes, {
       createComponent: scaffolderPlugin.routes.root,
@@ -56,7 +60,16 @@ const app = createApp({
     });
   },
   components: {
-    SignInPage: props => <SignInPage {...props} auto providers={['guest']} />,
+     SignInPage: props => (
+      <SignInPage
+        {...props}
+        providers={[
+          { id: 'github-auth-provider', title: 'GitHub', apiRef: githubAuthApiRef, message: 'Sign in with GitHub' },
+        ]}
+        title="Select a sign-in method"
+        align="center"
+      />
+    ),
   },
 });
 

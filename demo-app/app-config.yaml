@@ -67,6 +67,10 @@ auth:
   providers:
     # See https://backstage.io/docs/auth/guest/provider
     guest: {}
+    github:
+      development:
+        clientId: 'Ov23liujQmRnXDb0oV3K'
+        clientSecret: '6ced03e698b3144136794eb7d71c8b0bc6cca873'
 
 scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
@@ -114,3 +118,4 @@ kubernetes:
 permission:
   # setting this to `false` will disable permissions
   enabled: true
+
