@@ -35,9 +35,7 @@ import { AppRouter, FlatRoutes } from '@backstage/core-app-api';
 import { CatalogGraphPage } from '@backstage/plugin-catalog-graph';
 import { RequirePermission } from '@backstage/plugin-permission-react';
 import { catalogEntityCreatePermission } from '@backstage/plugin-catalog-common/alpha';
-import { githubAuthApiRef } from '@backstage/core-plugin-api';
-
-
+import { githubAuthApiRef,microsoftAuthApiRef } from '@backstage/core-plugin-api';
 
 const app = createApp({
   apis,
@@ -64,7 +62,18 @@ const app = createApp({
       <SignInPage
         {...props}
         providers={[
-          { id: 'github-auth-provider', title: 'GitHub', apiRef: githubAuthApiRef, message: 'Sign in with GitHub' },
+           { 
+            id: 'github-auth-provider', 
+            title: 'GitHub', 
+            apiRef: githubAuthApiRef, 
+            message: 'Sign in with GitHub' 
+          },
+          { 
+            id: 'microsoft-auth-provider', 
+            title: 'Microsoft', 
+            apiRef: microsoftAuthApiRef, 
+            message: 'Sign in with Microsoft' 
+          },
         ]}
         title="Select a sign-in method"
         align="center"

@@ -71,6 +71,16 @@ auth:
       development:
         clientId: 'Ov23liujQmRnXDb0oV3K'
         clientSecret: '6ced03e698b3144136794eb7d71c8b0bc6cca873'
+    microsoft:
+      development:
+        clientId: 'a2386e77-bebd-459b-8106-bcf650ede44b'
+        clientSecret: '4z48Q~OPZwO0M14PNGLEsuYkMkXcSsndC-D9pb8H'
+        tenantId: '5fd5f225-7ae7-4dd7-a8fc-edbe4ea8a7a9'
+        # domainHint: '${AZURE_TENANT_ID}'
+        # signIn:
+          # resolvers:
+            # See https://backstage.io/docs/auth/microsoft/provider#resolvers for more resolvers
+            # - resolver: userIdMatchingUserEntityAnnotation
 
 scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options

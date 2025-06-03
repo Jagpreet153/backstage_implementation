@@ -52,16 +52,16 @@ backend.add(import('@backstage/plugin-search-backend-module-techdocs'));
 // kubernetes
 backend.add(import('@backstage/plugin-kubernetes-backend'));
 
-
-
 import { createBackendModule } from '@backstage/backend-plugin-api';
 import { githubAuthenticator } from '@backstage/plugin-auth-backend-module-github-provider';
+import { microsoftAuthenticator } from '@backstage/plugin-auth-backend-module-microsoft-provider';
 import {
   authProvidersExtensionPoint,
   createOAuthProviderFactory,
 } from '@backstage/plugin-auth-node';
 
 import { stringifyEntityRef } from '@backstage/catalog-model';
+
 const customAuth = createBackendModule({
   // This ID must be exactly "auth" because that's the plugin it targets
   pluginId: 'auth',
@@ -71,72 +71,82 @@ const customAuth = createBackendModule({
     reg.registerInit({
       deps: { providers: authProvidersExtensionPoint },
       async init({ providers }) {
+        // GitHub provider
         providers.registerProvider({
-          // This ID must match the actual provider config, e.g. addressing
-          // auth.providers.github means that this must be "github".
           providerId: 'github',
-          // Use createProxyAuthProviderFactory instead if it's one of the proxy
-          // based providers rather than an OAuth based one
           factory: createOAuthProviderFactory({
             authenticator: githubAuthenticator,
             async signInResolver(info, ctx) {
-              /*********************************************************************
-               * Custom resolver code goes here, see farther down in this article! *
-               * "info" is the sign in result from the upstream (github here), and *
-               * "ctx" contains useful utilities for token issuance etc.           *
-               *********************************************************************/
-              // const email = info.profile.email;
-              // console.log('Full GitHub auth info:', JSON.stringify(info, null, 2));
-      
-        
-        // If still no email, use the GitHub username instead
-        // let userId;
-        // if (email) {
-        //   [userId] = email.split('@');
-        // } else {
-          // Fallback to GitHub username if no email is available
-          const userId = info.result.fullProfile.username || 'unknown-user';
-          console.warn(`No email found for user, using username: ${userId}`);
-        // }
+              const userId = info.result.fullProfile.username || 'unknown-user';
+              console.warn(`No email found for user, using username: ${userId}`);
 
               console.log(info);
 
-              // Profiles are not always guaranteed to have an email address.
-              // You can also find more provider-specific information in `info.result`.
-              // It typically contains a `fullProfile` object as well as ID and/or access
-              // tokens that you can use for additional lookups.
               if (!userId) {
                 throw new Error('User profile contained no valid email or username');
               }
-
-              // You can add your own custom validation logic here.
-              // Logins can be prevented by throwing an error like the one above.
-              // myEmailValidator(email);
-
-              // This example resolver simply uses the local part of the email as the name.
-              // const [userId] = email.split('@');
-
-              // This helper function handles sign-in by looking up a user in the catalog.
-              // The lookup can be done either by reference, annotations, or custom filters.
-              //
-              // The helper also issues a token for the user, using the standard group
-              // membership logic to determine the ownership references of the user.
-              //
-              // There are a number of other methods on the ctx, feel free to explore them!
 
               const userEntity = stringifyEntityRef({
                 kind: 'User',
                 name: userId,
                 namespace: 'default',
               });
-              
 
               return ctx.issueToken({
                 claims: {
                   sub: userEntity,
                   ent: [userEntity]
                 },
-              })
+              });
+            },
+          }),
+        });
+
+        // Microsoft provider
+        providers.registerProvider({
+          providerId: 'microsoft',
+          factory: createOAuthProviderFactory({
+            authenticator: microsoftAuthenticator,
+            async signInResolver(info, ctx) {
+              console.log('Microsoft auth info:', JSON.stringify(info, null, 2));
+              
+              // Extract user information from Microsoft profile
+              const email = info.profile.email;
+              const displayName = info.profile.displayName;
+              const username = info.result.fullProfile.userPrincipalName || info.result.fullProfile.mailNickname;
+              
+              // Use email local part as userId, fallback to username or displayName
+              let userId;
+              if (email) {
+                [userId] = email.split('@');
+              } else if (username) {
+                userId = username;
+              } else if (displayName) {
+                userId = displayName.replace(/\s+/g, '').toLowerCase();
+              } else {
+                throw new Error('User profile contained no valid email, username, or display name');
+              }
+
+              console.log(`Microsoft user ID: ${userId}`);
+
+              // You can add custom validation logic here
+              // For example, check if the user belongs to your organization
+              // if (!email?.endsWith('@yourcompany.com')) {
+              //   throw new Error('Only users from yourcompany.com are allowed');
+              // }
+
+              const userEntity = stringifyEntityRef({
+                kind: 'User',
+                name: userId,
+                namespace: 'default',
+              });
+
+              return ctx.issueToken({
+                claims: {
+                  sub: userEntity,
+                  ent: [userEntity]
+                },
+              });
             },
           }),
         });
