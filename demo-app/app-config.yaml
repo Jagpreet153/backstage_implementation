@@ -6,6 +6,7 @@ organization:
   name: My Company
 
 backend:
+
   # Used for enabling authentication, secret is shared by all backend plugins
   # See https://backstage.io/docs/auth/service-to-service-auth for
   # information on the format
@@ -17,6 +18,10 @@ backend:
     port: 7007
     # Uncomment the following host directive to bind to specific interfaces
     # host: 127.0.0.1
+  reading:
+    allow:
+      - host: gist.githubusercontent.com
+      - host: github.com
   csp:
     connect-src: ["'self'", 'http:', 'https:']
     # Content-Security-Policy directives follow the Helmet format: https://helmetjs.github.io/#reference
@@ -82,6 +87,11 @@ auth:
             # See https://backstage.io/docs/auth/microsoft/provider#resolvers for more resolvers
             # - resolver: userIdMatchingUserEntityAnnotation
 
+
+  integrations:
+    github:
+      - host: github.com
+        token: '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'
 scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
 
@@ -90,7 +100,7 @@ catalog:
     entityFilename: catalog-info.yaml
     pullRequestBranchName: backstage-integration
   rules:
-    - allow: [Component, System, API, Resource, Location]
+    - allow: [Component, System, API, Resource, Location,Group,User]
   locations:
     # Local example data, file locations are relative to the backend process, typically `packages/backend`
     - type: file

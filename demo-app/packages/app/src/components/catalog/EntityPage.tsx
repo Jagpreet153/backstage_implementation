@@ -1,4 +1,5 @@
 import { Button, Grid } from '@material-ui/core';
+import { GithubActionsPage } from '@backstage-community/plugin-github-actions';
 import {
   EntityApiDefinitionCard,
   EntityConsumedApisCard,
@@ -57,6 +58,11 @@ import {
   EntityKubernetesContent,
   isKubernetesAvailable,
 } from '@backstage/plugin-kubernetes';
+
+import {
+  EntityGithubActionsContent,
+  isGithubActionsAvailable,
+} from '@backstage-community/plugin-github-actions';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -144,7 +150,11 @@ const overviewContent = (
 );
 
 const serviceEntityPage = (
+  
   <EntityLayout>
+    <EntityLayout.Route path="/github-actions" title="GitHub Actions" if={isGithubActionsAvailable}>
+      <EntityGithubActionsContent />
+    </EntityLayout.Route>
     <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
     </EntityLayout.Route>
