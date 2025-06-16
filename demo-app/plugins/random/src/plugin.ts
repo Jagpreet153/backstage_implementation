@@ -12,6 +12,15 @@ export const randomPlugin = createPlugin({
   },
 });
 
+export const RandomCard = randomPlugin.provide(
+  createRoutableExtension({
+    component: {
+      lazy: () =>
+        import('./components/RandomCard').then(m => m.RandomCard),
+    }
+  }),
+);
+
 export const RandomPage = randomPlugin.provide(
   createRoutableExtension({
     name: 'RandomPage',

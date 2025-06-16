@@ -1,5 +1,6 @@
 import { Button, Grid } from '@material-ui/core';
 import { GithubActionsPage } from '@backstage-community/plugin-github-actions';
+import { RandomCard } from '@internal/plugin-random/src/components/RandomCard';
 import {
   EntityApiDefinitionCard,
   EntityConsumedApisCard,
@@ -312,6 +313,9 @@ const userPage = (
         </Grid>
         <Grid item xs={12} md={6}>
           <EntityOwnershipCard variant="gridItem" />
+        </Grid>
+        <Grid>
+          <RandomCard />
         </Grid>
       </Grid>
     </EntityLayout.Route>

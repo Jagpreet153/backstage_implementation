@@ -13,7 +13,6 @@ const backend = createBackend();
 backend.add(import('@backstage/plugin-app-backend'));
 backend.add(import('@backstage/plugin-proxy-backend'));
 backend.add(import('@backstage/plugin-scaffolder-backend'));
-backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
 backend.add(import('@backstage/plugin-techdocs-backend'));
 
 // auth plugin
@@ -80,7 +79,7 @@ const customAuth = createBackendModule({
               const userId = info.result.fullProfile.username || 'unknown-user';
               console.warn(`No email found for user, using username: ${userId}`);
 
-              console.log(info);
+              // console.log(info);
 
               if (!userId) {
                 throw new Error('User profile contained no valid email or username');
@@ -108,7 +107,7 @@ const customAuth = createBackendModule({
           factory: createOAuthProviderFactory({
             authenticator: microsoftAuthenticator,
             async signInResolver(info, ctx) {
-              console.log('Microsoft auth info:', JSON.stringify(info, null, 2));
+              // console.log('Microsoft auth info:', JSON.stringify(info, null, 2));
               
               // Extract user information from Microsoft profile
               const email = info.profile.email;
@@ -127,7 +126,7 @@ const customAuth = createBackendModule({
                 throw new Error('User profile contained no valid email, username, or display name');
               }
 
-              console.log(`Microsoft user ID: ${userId}`);
+              // console.log(`Microsoft user ID: ${userId}`);
 
               // You can add custom validation logic here
               // For example, check if the user belongs to your organization
@@ -155,5 +154,9 @@ const customAuth = createBackendModule({
   },
 });
 
+
+
 backend.add(customAuth);
+backend.add(import('@backstage/plugin-scaffolder-backend-module-cookiecutter'));
+backend.add(import('@backstage/plugin-scaffolder-backend-module-github'));
 backend.start();

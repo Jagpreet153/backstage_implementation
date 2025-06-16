@@ -36,13 +36,6 @@ backend:
     client: better-sqlite3
     connection: ':memory:'
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
-
-integrations:
-  github:
-    - host: github.com
-      # This is a Personal Access Token or PAT from GitHub. You can find out how to generate this token, and more information
-      # about setting up the GitHub integration here: https://backstage.io/docs/integrations/github/locations#configuration
-      token: ${GITHUB_TOKEN}
     ### Example for how to add your GitHub Enterprise instance using the API:
     # - host: ghe.example.net
     #   apiBaseUrl: https://ghe.example.net/api/v3
@@ -55,6 +48,12 @@ proxy:
   #   '/test':
   #     target: 'https://example.com'
   #     changeOrigin: true
+
+
+integrations:
+  github:
+    - host: github.com
+      token: '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'
 
 # Reference documentation http://backstage.io/docs/features/techdocs/configuration
 # Note: After experimenting with basic setup, use CI/CD to generate docs
@@ -87,11 +86,6 @@ auth:
             # See https://backstage.io/docs/auth/microsoft/provider#resolvers for more resolvers
             # - resolver: userIdMatchingUserEntityAnnotation
 
-
-  integrations:
-    github:
-      - host: github.com
-        token: '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'
 scaffolder:
   # see https://backstage.io/docs/features/software-templates/configuration for software template options
 

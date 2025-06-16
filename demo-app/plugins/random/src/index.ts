@@ -1,1 +1,1 @@
-export { randomPlugin, RandomPage } from './plugin';
+export { RandomCard, RandomPage, randomPlugin } from './plugin';
