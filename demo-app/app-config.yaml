@@ -73,13 +73,13 @@ auth:
     guest: {}
     github:
       development:
-        clientId: "your client id"
-        clientSecret: "your client secret"
+        clientId: ""
+        clientSecret: ""
     microsoft:
       development:
-        clientId: "your client id"
-        clientSecret: "your client secret"
-        tenantId: "your tenant id"
+        clientId: ""
+        clientSecret: ""
+        tenantId: ''
         # domainHint: '${AZURE_TENANT_ID}'
         # signIn:
           # resolvers:
