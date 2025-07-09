@@ -53,7 +53,7 @@ proxy:
 integrations:
   github:
     - host: github.com
-      token: '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'
+      token: "Your github token"
 
 # Reference documentation http://backstage.io/docs/features/techdocs/configuration
 # Note: After experimenting with basic setup, use CI/CD to generate docs
@@ -73,13 +73,13 @@ auth:
     guest: {}
     github:
       development:
-        clientId: 'Ov23liujQmRnXDb0oV3K'
-        clientSecret: '6ced03e698b3144136794eb7d71c8b0bc6cca873'
+        clientId: "your client id"
+        clientSecret: "your client secret"
     microsoft:
       development:
-        clientId: 'a2386e77-bebd-459b-8106-bcf650ede44b'
-        clientSecret: '4z48Q~OPZwO0M14PNGLEsuYkMkXcSsndC-D9pb8H'
-        tenantId: '5fd5f225-7ae7-4dd7-a8fc-edbe4ea8a7a9'
+        clientId: "your client id"
+        clientSecret: "your client secret"
+        tenantId: "your tenant id"
         # domainHint: '${AZURE_TENANT_ID}'
         # signIn:
           # resolvers:
